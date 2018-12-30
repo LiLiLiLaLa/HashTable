@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -7,33 +8,34 @@
 typedef int HTKeyType;
 typedef int HTValueType;
 
+//æœ‰é™çŠ¶æ€æœº
 enum State
 {
-	EMPTY,//¿Õ×´Ì¬
-	EXITS,//´æÔÚÔªËØ
-	DELETE,//¸ÃÎ»ÖÃÔ­±¾ÓĞÔªËØ±»É¾³ı
+	EMPTY,//ç©ºçŠ¶æ€
+	EXITS,//å­˜åœ¨å…ƒç´ 
+	DELETE,//è¯¥ä½ç½®åŸæœ¬æœ‰å…ƒç´ è¢«åˆ é™¤
 };
 
 typedef struct HashData
 {
-	enum State _state;//¸ÃÎ»ÖÃ×´Ì¬
+	enum State _state;//è¯¥ä½ç½®çŠ¶æ€
 	HTKeyType _key;//
 	HTValueType _value;//
-}HashData;//¶¨Òå¹şÏ£±íÖĞ´æ·ÅµÄÄÚÈİ½á¹¹
+}HashData;//å®šä¹‰å“ˆå¸Œè¡¨ä¸­å­˜æ”¾çš„å†…å®¹ç»“æ„
 
 typedef struct HashTable
 {
 	HashData* _tables;
-	int _len;//¹şÏ£±í³¤
-	int _size;//ÓĞĞ§Êı¾İ¸öÊı
-}HashTable;//¶¨Òå¹şÏ£±í½á¹¹
+	int _len;//å“ˆå¸Œè¡¨é•¿
+	int _size;//æœ‰æ•ˆæ•°æ®ä¸ªæ•°
+}HashTable;//å®šä¹‰å“ˆå¸Œè¡¨ç»“æ„
 
-void HTInit(HashTable* ht, int len);//³õÊ¼»¯¹şÏ£±í
-void HTDestroy(HashTable* ht);//Ïú»Ù¹şÏ£±í
-int HTInsert(HashTable* ht, HTKeyType key, HTValueType value);//¼ÓÈëĞÂÔªËØ
-int HTRemove(HashTable* ht, HTKeyType key);//É¾³ıÔªËØ
-HashData* HTFind(HashTable* ht, HTKeyType key);//²éÕÒ
-int HTSize(HashTable* ht);//´óĞ¡
-int HTEmpty(HashTable* ht);//ÅĞ¿Õ
+void HTInit(HashTable* ht, int len);//åˆå§‹åŒ–å“ˆå¸Œè¡¨
+void HTDestroy(HashTable* ht);//é”€æ¯å“ˆå¸Œè¡¨
+int HTInsert(HashTable* ht, HTKeyType key, HTValueType value);//åŠ å…¥æ–°å…ƒç´ 
+int HTRemove(HashTable* ht, HTKeyType key);//åˆ é™¤å…ƒç´ 
+HashData* HTFind(HashTable* ht, HTKeyType key);//æŸ¥æ‰¾
+int HTSize(HashTable* ht);//å¤§å°
+int HTEmpty(HashTable* ht);//åˆ¤ç©º
 
 void TestHashTable();
