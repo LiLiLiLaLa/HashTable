@@ -1,18 +1,19 @@
 #include "HashTable.h"
 
+//åˆå§‹åŒ–æ–¹æ³•
 void HTInit(HashTable* ht, int len)
 {
 	int i = 0;
 	assert(ht != NULL);
 	assert(len > 0);
-	ht->_tables = (HashData*)malloc(sizeof(HashData)*len);//¿ª±Ùlen³¤¶ÈµÄ¿Õ¼ä
+	ht->_tables = (HashData*)malloc(sizeof(HashData)*len);//å¼€è¾Ÿlené•¿åº¦çš„ç©ºé—´
 	ht->_size = 0;
 	ht->_len = len;
 	for (i = 0; i < len; i++)
 	{
-		ht->_tables[i]._state = EMPTY;//½«¹şÏ£±íÖĞÃ¿¸öÎ»ÖÃÖÃÎª¿Õ
+		ht->_tables[i]._state = EMPTY;//å°†å“ˆå¸Œè¡¨ä¸­æ¯ä¸ªä½ç½®ç½®ä¸ºç©º
 	}
-}//³õÊ¼»¯
+}//åˆå§‹åŒ–
 
 void HTDestroy(HashTable* ht)
 {
@@ -20,44 +21,44 @@ void HTDestroy(HashTable* ht)
 	free(ht->_tables);
 	ht->_len = 0;
 	ht->_size = 0;
-}//Ïú»Ù
+}//é”€æ¯
 
 size_t HashFunc(HashTable* ht, HTKeyType key)
 {
 	assert(ht);
 	return key % (ht->_len);
-}//¼ÆËãË÷Òı
+}//è®¡ç®—ç´¢å¼•
 
-int HTInsert(HashTable* ht, HTKeyType key, HTValueType value);//Á½¸öº¯Êı»¥Ïà°üº¬£¬ĞèÒªÇ°ÖÃº¯ÊıÉêÃ÷
+int HTInsert(HashTable* ht, HTKeyType key, HTValueType value);//ä¸¤ä¸ªå‡½æ•°äº’ç›¸åŒ…å«ï¼Œéœ€è¦å‰ç½®å‡½æ•°ç”³æ˜
 void CheckCapacity(HashTable *ht)
 {
-	if (ht->_size * 10 / ht->_len > 7)//¹æ¶¨¸ºÔØÒò×ÓÎª0.7
+	if (ht->_size * 10 / ht->_len > 7)//è§„å®šè´Ÿè½½å› å­ä¸º0.7
 	{
 		HashTable newht;
 		int i = 0;
-		HTInit(&newht, ht->_len * 2);//¸ø±íÔö³¤
+		HTInit(&newht, ht->_len * 2);//ç»™è¡¨å¢é•¿
 		for (i = 0; i < ht->_len; i++)
 		{
 			if (ht->_tables[i]._state == EXITS)
 			{
 				HTInsert(&newht, ht->_tables[i]._key, ht->_tables[i]._value);
-			}//½«Ô­±íÊı¾İ¼ÆËãºó²åÈëĞÂ±í
+			}//å°†åŸè¡¨æ•°æ®è®¡ç®—åæ’å…¥æ–°è¡¨
 		}
-		HTDestroy(ht);//Ïú»ÙÔ­±íÄÚÈİ
+		HTDestroy(ht);//é”€æ¯åŸè¡¨å†…å®¹
 		ht->_tables = newht._tables;
 		ht->_len = newht._len;
-		ht->_size = newht._size;//½«ĞÂ±íÄÚÈİ¸³¸øÔ­±í
+		ht->_size = newht._size;//å°†æ–°è¡¨å†…å®¹èµ‹ç»™åŸè¡¨
 	}
 }
 
 int HTInsert(HashTable* ht, HTKeyType key, HTValueType value)
 {
-	size_t index = HashFunc(ht, key);//½¨Á¢Ë÷Òı
+	size_t index = HashFunc(ht, key);//å»ºç«‹ç´¢å¼•
 	assert(ht);
 	CheckCapacity(ht);
 	while (ht->_tables[index]._state == EXITS)
 	{
-		if (ht->_tables[index]._key == key)//ÒÑ¾­´æÔÚ¸ÃÔªËØ
+		if (ht->_tables[index]._key == key)//å·²ç»å­˜åœ¨è¯¥å…ƒç´ 
 		{
 			return 0;
 		}
@@ -66,7 +67,7 @@ int HTInsert(HashTable* ht, HTKeyType key, HTValueType value)
 			return index;
 		}
 	}
-	ht->_tables[index]._state = EXITS;//²åÈëºó¸ÃÎ»ÖÃ×´Ì¬¸Ä±ä
+	ht->_tables[index]._state = EXITS;//æ’å…¥åè¯¥ä½ç½®çŠ¶æ€æ”¹å˜
 	ht->_tables[index]._key = key;
 	ht->_tables[index]._value = value;
 	ht->_size++;
@@ -75,7 +76,7 @@ int HTInsert(HashTable* ht, HTKeyType key, HTValueType value)
 
 int HTRemove(HashTable* ht, HTKeyType key)
 {
-	size_t index = HashFunc(ht, key);//½¨Á¢Ë÷Òı
+	size_t index = HashFunc(ht, key);//å»ºç«‹ç´¢å¼•
 	assert(ht);
 	if(ht->_tables[index]._state == EXITS)
 	{
@@ -93,16 +94,16 @@ HashData* HTFind(HashTable* ht, HTKeyType key)
 	size_t index = HashFunc(ht, key);
 	while (ht->_tables[index]._state == EXITS)
 	{
-		if (ht->_tables[index]._key == key)//´æÔÚ
+		if (ht->_tables[index]._key == key)//å­˜åœ¨
 		{
 			return &(ht->_tables[index]);
 		}
 		else
 		{
-			index++;//¹şÏ£³åÍ»Ïòºó²éÕÒ
+			index++;//å“ˆå¸Œå†²çªå‘åæŸ¥æ‰¾
 		}
 	}
-	return NULL;//Ã»ÕÒµ½
+	return NULL;//æ²¡æ‰¾åˆ°
 }
 
 int HTSize(HashTable* ht)
