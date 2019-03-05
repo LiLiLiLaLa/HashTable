@@ -1,5 +1,4 @@
 #include "HashTable.h"
-
 //初始化方法
 void HTInit(HashTable* ht, int len)
 {
