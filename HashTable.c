@@ -82,6 +82,7 @@ int HTRemove(HashTable* ht, HTKeyType key)
 		ht->_tables[index]._state = DELETE;
 		return 1;
 	}
+	
 	else
 	{
 		return 0;
