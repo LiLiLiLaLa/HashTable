@@ -3,6 +3,7 @@
 void HTInit(HashTable* ht, int len)
 {
 	int i = 0;
+	
 	assert(ht != NULL);
 	assert(len > 0);
 	ht->_tables = (HashData*)malloc(sizeof(HashData)*len);//开辟len长度的空间
